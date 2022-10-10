@@ -1,45 +1,47 @@
-﻿static int enterNumber()
+﻿static int enterNumber(string msg)
 {
     int number;
     while (true)
     {
-        Console.Write("Введите целое пятизначное число: ");
+        Console.Write($"Введите {msg} ");
         if (int.TryParse(Console.ReadLine(), out number))
         {
-            if (number > 9999 && number < 100000)
+            if (number>9999 && number<100000)
             {
                 return number;
             }
-
+            
         }
         Console.WriteLine("Введено неправильное число");
     }
 }
-
-static void checkNum(int number1)
+static int countNum(int num)
 {
-    string message = "Введенное число является палиндромом";
-    int N = 1;
-    int tmp = number1;
-    while (tmp / 10 != 0)
+    int count = 0;
+    while (num / 10 != 0)
     {
-        tmp = tmp / 10;
-        N++;
+        num = num / 10;
+        count++;
     }
-
-    for (int i = 1; i <= N / 2; i++)
+    return count + 1;
+}
+static void checkPalindrom(int userNum)
+{
+    int N = countNum(userNum);
+    string str = "да";
+    for (int i = 0; i < N / 2; i++)
     {
-        int a = (number1 / Convert.ToInt32(Math.Pow(10, N - i))) % 10;
-        int b = (number1 / Convert.ToInt32(Math.Pow(10, i - 1))) % 10;
+        int a = Convert.ToInt32((userNum / Math.Pow(10, N - i)) % 10);
+        int b = Convert.ToInt32((userNum / Math.Pow(10, i - 1)) % 10);
         if (a != b)
         {
-            message = "Введенное число не является палиндромом";
+            str = "нет";
+            break;
         }
-
     }
-    Console.WriteLine(message);
+    Console.WriteLine($"{userNum} -> {str}");
 }
 
 Console.Clear();
-int number1 = enterNumber();
-checkNum(number1);
+string userMessage = "пятизначное число для проверки на палиндром: ";
+checkPalindrom(enterNumber(userMessage));
